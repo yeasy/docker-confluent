@@ -6,7 +6,7 @@ Docker images for [Confluent](https://confluent.io)
 # Supported tags and respective Dockerfile links
 
 * [`latest` (latest/Dockerfile)](https://github.com/yeasy/docker-confluent/blob/master/Dockerfile): Tracking latest release.
-* [`3.3` (3.3/Dockerfile)](https://github.com/yeasy/docker-confluent/blob/master/v3.3/Dockerfile): Build for the 3.3 release.
+* [`3.3.0` (3.3.0/Dockerfile)](https://github.com/yeasy/docker-confluent/blob/master/v3.3.0/Dockerfile): Build for the 3.3.0 release.
 
 For more information about this image and its history, please see the relevant manifest file in the [`yeasy/docker-confluent` GitHub repo](https://github.com/yeasy/docker-confluent).
 
