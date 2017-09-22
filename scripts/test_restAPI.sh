@@ -6,6 +6,8 @@
 #sed -i "s/zookeeper.connect=localhost:2181/zookeeper.connect=zookeeper:2181/" config/server.properties
 echo "Current workdir is `pwd`"
 
+echo "===Test RESTful APIs with json format"
+
 echo "Produce a message using JSON with the value '{ foo: bar }' to the topic jsontest"
 curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
     -H "Accept: application/vnd.kafka.v2+json" \
@@ -34,3 +36,29 @@ curl -X GET -H "Accept: application/vnd.kafka.json.v2+json" \
 echo -e "\nClose the consumer with a DELETE to make it leave the group and clean up its resources"
 curl -X DELETE -H "Content-Type: application/vnd.kafka.v2+json" \
     http://localhost:8082/consumers/my_json_consumer/instances/my_consumer_instance
+
+echo "===Test RESTful APIs with binary format"
+
+
+echo "Produce a message with binary format"
+curl -X POST -H "Content-Type: application/vnd.kafka.binary.v2+json" \
+    -H "Accept: application/vnd.kafka.v2+json" \
+    --data '{"records":[{"value":"S2Fma2E="}]}' "http://localhost:8082/topics/binarytest"
+
+echo "Create a consumer for binary data, starting at the beginning"
+curl -X POST -H "Content-Type: application/vnd.kafka.v2+json" \
+    --data '{"name": "my_consumer_instance", "format": "binary", "auto.offset.reset": "earliest"}' \
+    http://localhost:8082/consumers/my_binary_consumer
+
+echo "Subscribe the consumer to topic"
+curl -X POST -H "Content-Type: application/vnd.kafka.v2+json" \
+    --data '{"topics":["binarytest"]}' \
+     http://localhost:8082/consumers/my_binary_consumer/instances/my_consumer_instance/subscription
+
+echo "Get data from the topic"
+curl -X GET -H "Accept: application/vnd.kafka.binary.v2+json" \
+    http://localhost:8082/consumers/my_binary_consumer/instances/my_consumer_instance/records
+
+echo "Delete the consumer instance"
+curl -X DELETE -H "Content-Type: application/vnd.kafka.v2+json" \
+    http://localhost:8082/consumers/my_binary_consumer/instances/my_consumer_instance
