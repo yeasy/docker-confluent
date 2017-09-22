@@ -2,6 +2,8 @@
 
 CONTAINER_NAME=confluent
 
+docker rm -f ${CONTAINER_NAME}
+
 echo "Start confluent, with RESTful API listen on port 8082"
 docker run \
     --name ${CONTAINER_NAME} \
@@ -11,8 +13,7 @@ docker run \
     yeasy/confluent:latest
 
 echo "Test RESTful APIs"
-docker exec -it ${CONTAINER_NAME}bash /tmp/test_restAPI.sh
+docker exec -it ${CONTAINER_NAME} /tmp/test_restAPI.sh
 
-echo "Stop confluent"
-docker stop ${CONTAINER_NAME}
-docker rm ${CONTAINER_NAME}
+echo "Stop and remove confluent"
+docker rm -f ${CONTAINER_NAME}
