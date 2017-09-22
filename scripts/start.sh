@@ -12,8 +12,10 @@ echo "Start a zk service"
 echo "Start a kafka service"
 ./bin/kafka-server-start ./etc/kafka/server.properties &
 
-echo "Start the RESTful service"
-./bin/kafka-rest-start ./etc/kafka-rest/kafka-rest.properties &
+sleep 3
 
-echo "Start the scheme registry"
-./bin/schema-registry-start ./etc/schema-registry/schema-registry.properties
+echo "Start the RESTful service"
+./bin/kafka-rest-start ./etc/kafka-rest/kafka-rest.properties
+
+#echo "Start the scheme registry"
+#./bin/schema-registry-start ./etc/schema-registry/schema-registry.properties

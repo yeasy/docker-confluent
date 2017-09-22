@@ -22,8 +22,20 @@ FROM yeasy/confluent:latest
 ```
 
 ## Local development
+
+The restful api will listen on 8082 port.
+
 ```sh
-$ docker run yeasy/confluent
+# Start RESTful API service on port 8082
+$ docker run \
+        --name confluent \
+        -it \
+        -d \
+        -p 8082:8082 \
+        yeasy/confluent
+
+# Test RESTful APIs
+$ docker exec -it confluent bash /tmp/test_restAPI.sh
 ```
 
 # Which image is based on?

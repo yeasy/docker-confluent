@@ -21,11 +21,18 @@ ENV CONFLUENT_HOME=/opt/confluent
 
 ENV PATH=$PATH:${CONFLUENT_HOME}/bin
 
-RUN cd /tmp \
-        && wget http://packages.confluent.io/archive/${RELEASE_VERSION}/${PKG_NAME} \
-        && tar xzf ${PKG_NAME} -C /opt \
-        && rm ${PKG_NAME} \
-        && mv /opt/confluent-${MAJOR_VERSION} ${CONFLUENT_HOME}
+# Download and install confluent
+RUN cd /tmp && \
+        wget http://packages.confluent.io/archive/${RELEASE_VERSION}/${PKG_NAME} && \
+        tar xzf ${PKG_NAME} -C /opt && \
+        rm ${PKG_NAME} && \
+        mv /opt/confluent-${MAJOR_VERSION} ${CONFLUENT_HOME}
+
+# Install necessary tools
+RUN set -ex && \
+        apk upgrade --update && \
+        apk add --update curl && \
+        rm -rf /var/cache/apk/*
 
 COPY scripts/* /tmp/
 
